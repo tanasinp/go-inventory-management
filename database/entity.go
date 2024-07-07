@@ -16,9 +16,8 @@ type Product struct {
 
 type Supplier struct {
 	gorm.Model
-	Name     string
-	Contact  string
-	Products []Product
+	Name    string
+	Contact string
 }
 
 type Category struct {
