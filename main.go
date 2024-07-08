@@ -49,6 +49,7 @@ func main() {
 	app := fiber.New()
 
 	app.Post("/supplier", productHandler.CreateSupplierFiber)
+	app.Post("/category", productHandler.CreateCategoryFiber)
 
 	app.Listen(":8000")
 }
