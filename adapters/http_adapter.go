@@ -25,3 +25,15 @@ func (h *httpProductHandler) CreateSupplierFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusCreated).JSON(supplier)
 }
+
+func (h *httpProductHandler) CreateCategoryFiber(c *fiber.Ctx) error {
+	var category database.Category
+	if err := c.BodyParser(&category); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
+	}
+
+	if err := h.service.CreateCategory(&category); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(category)
+}
