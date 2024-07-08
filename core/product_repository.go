@@ -7,4 +7,5 @@ import (
 // secondary port for product
 type ProductRepository interface {
 	SaveSupplier(supplier *database.Supplier) error
+	SaveCategory(category *database.Category) error
 }
