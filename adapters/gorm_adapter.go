@@ -21,3 +21,10 @@ func (r *gormProductRepository) SaveSupplier(supplier *database.Supplier) error 
 	}
 	return nil
 }
+
+func (r *gormProductRepository) SaveCategory(category *database.Category) error {
+	if result := r.db.Create(category); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
