@@ -8,6 +8,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+	"github.com/tanasinp/go-inventory-management/adapters"
+	"github.com/tanasinp/go-inventory-management/core"
 	"github.com/tanasinp/go-inventory-management/database"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -23,8 +25,6 @@ func main() {
 	user := os.Getenv("DB_USER")         // as defined in docker-compose.yml
 	password := os.Getenv("DB_PASSWORD") // as defined in docker-compose.yml
 	dbname := os.Getenv("DB_NAME")       // as defined in docker-compose.yml
-
-	// fmt.Printf("host=%s port=%s user=%s password=%s dbname=%s\n", host, port, user, password, dbname)
 	port, err := strconv.Atoi(portStr)
 	if err != nil {
 		log.Fatalf("Error converting DB_PORT to int")
@@ -33,17 +33,22 @@ func main() {
 	dsn := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
-	// fmt.Println(dsn)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
 
+	productRepo := adapters.NewGormProductRepository(db)
+	productService := core.NewProductService(productRepo)
+	productHandler := adapters.NewHttpProductHandler(productService)
+
 	db.AutoMigrate(&database.Product{}, &database.Category{}, &database.Supplier{}, &database.ProductCategory{})
 	fmt.Println("Automigrate Successful")
 
 	app := fiber.New()
+
+	app.Post("/supplier", productHandler.CreateSupplierFiber)
 
 	app.Listen(":8000")
 }
