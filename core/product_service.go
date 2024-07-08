@@ -7,6 +7,7 @@ import (
 // primary port
 type ProductService interface {
 	CreateSupplier(supplier *database.Supplier) error
+	CreateCategory(category *database.Category) error
 }
 
 // business logic
@@ -21,6 +22,14 @@ func NewProductService(repo ProductRepository) ProductService {
 func (s *productServiceImpl) CreateSupplier(supplier *database.Supplier) error {
 	// business logic function
 	if err := s.repo.SaveSupplier(supplier); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *productServiceImpl) CreateCategory(category *database.Category) error {
+	// business logic function
+	if err := s.repo.SaveCategory(category); err != nil {
 		return err
 	}
 	return nil
