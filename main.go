@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -25,14 +24,14 @@ func main() {
 	user := os.Getenv("DB_USER")         // as defined in docker-compose.yml
 	password := os.Getenv("DB_PASSWORD") // as defined in docker-compose.yml
 	dbname := os.Getenv("DB_NAME")       // as defined in docker-compose.yml
-	port, err := strconv.Atoi(portStr)
-	if err != nil {
-		log.Fatalf("Error converting DB_PORT to int")
-	}
+	// port, err := strconv.Atoi(portStr)
+	// if err != nil {
+	// 	log.Fatalf("Error converting DB_PORT to int")
+	// }
 
-	dsn := fmt.Sprintf("host=%s port=%d user=%s "+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		host, portStr, user, password, dbname)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
