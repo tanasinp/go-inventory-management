@@ -45,6 +45,7 @@ func main() {
 
 	app.Post("/supplier", productHandler.CreateSupplierFiber)
 	app.Post("/category", productHandler.CreateCategoryFiber)
+	app.Get("/supplier", productHandler.GetAllSupplierFiber)
 
 	app.Listen(":8000")
 }

@@ -28,3 +28,11 @@ func (r *gormProductRepository) SaveCategory(category *database.Category) error 
 	}
 	return nil
 }
+
+func (r *gormProductRepository) FindAllSupplier() ([]database.Supplier, error) {
+	var suppliers []database.Supplier
+	if result := r.db.Find(&suppliers); result.Error != nil {
+		return nil, result.Error
+	}
+	return suppliers, nil
+}

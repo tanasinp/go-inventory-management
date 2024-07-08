@@ -8,6 +8,7 @@ import (
 type ProductService interface {
 	CreateSupplier(supplier *database.Supplier) error
 	CreateCategory(category *database.Category) error
+	GetAllSupplier() ([]database.Supplier, error)
 }
 
 // business logic
@@ -33,4 +34,12 @@ func (s *productServiceImpl) CreateCategory(category *database.Category) error {
 		return err
 	}
 	return nil
+}
+
+func (s *productServiceImpl) GetAllSupplier() ([]database.Supplier, error) {
+	suppliers, err := s.repo.FindAllSupplier()
+	if err != nil {
+		return nil, err
+	}
+	return suppliers, err
 }
