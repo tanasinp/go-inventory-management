@@ -53,3 +53,14 @@ func (h *httpProductHandler) GetAllCategoryFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(categories)
 }
+
+func (h *httpProductHandler) CreateProductFiber(c *fiber.Ctx) error {
+	var product database.Product
+	if err := c.BodyParser(&product); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
+	}
+	if err := h.service.CreateProduct(&product); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(product)
+}

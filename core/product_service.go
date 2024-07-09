@@ -10,6 +10,7 @@ type ProductService interface {
 	CreateCategory(category *database.Category) error
 	GetAllSupplier() ([]database.Supplier, error)
 	GetAllCategory() ([]database.Category, error)
+	CreateProduct(product *database.Product) error
 }
 
 // business logic
@@ -51,4 +52,11 @@ func (s *productServiceImpl) GetAllCategory() ([]database.Category, error) {
 		return nil, err
 	}
 	return categories, nil
+}
+
+func (s *productServiceImpl) CreateProduct(product *database.Product) error {
+	if err := s.repo.SaveProduct(product); err != nil {
+		return err
+	}
+	return nil
 }

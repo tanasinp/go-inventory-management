@@ -44,3 +44,10 @@ func (r *gormProductRepository) FindAllCategory() ([]database.Category, error) {
 	}
 	return categories, nil
 }
+
+func (r *gormProductRepository) SaveProduct(product *database.Product) error {
+	if result := r.db.Create(product); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

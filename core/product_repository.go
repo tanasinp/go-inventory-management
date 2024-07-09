@@ -10,4 +10,5 @@ type ProductRepository interface {
 	SaveCategory(category *database.Category) error
 	FindAllSupplier() ([]database.Supplier, error)
 	FindAllCategory() ([]database.Category, error)
+	SaveProduct(product *database.Product) error
 }
