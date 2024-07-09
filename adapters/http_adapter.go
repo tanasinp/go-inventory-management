@@ -45,3 +45,11 @@ func (h *httpProductHandler) GetAllSupplierFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(suppliers)
 }
+
+func (h *httpProductHandler) GetAllCategoryFiber(c *fiber.Ctx) error {
+	categories, err := h.service.GetAllCategory()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(categories)
+}

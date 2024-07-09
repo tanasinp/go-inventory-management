@@ -36,3 +36,11 @@ func (r *gormProductRepository) FindAllSupplier() ([]database.Supplier, error) {
 	}
 	return suppliers, nil
 }
+
+func (r *gormProductRepository) FindAllCategory() ([]database.Category, error) {
+	var categories []database.Category
+	if result := r.db.Find(&categories); result.Error != nil {
+		return nil, result.Error
+	}
+	return categories, nil
+}
