@@ -16,13 +16,13 @@ type Product struct {
 
 type Supplier struct {
 	gorm.Model
-	Name    string
+	Name    string `gorm:"unique"`
 	Contact string
 }
 
 type Category struct {
 	gorm.Model
-	Name     string
+	Name     string    `gorm:"unique"`
 	Products []Product `gorm:"many2many:product_categories;"`
 }
 
