@@ -11,4 +11,5 @@ type ProductRepository interface {
 	FindAllSupplier() ([]database.Supplier, error)
 	FindAllCategory() ([]database.Category, error)
 	SaveProduct(product *database.Product) error
+	FindProductWithSupplier(productID uint) (*database.Product, error)
 }

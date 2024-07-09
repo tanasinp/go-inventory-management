@@ -51,3 +51,11 @@ func (r *gormProductRepository) SaveProduct(product *database.Product) error {
 	}
 	return nil
 }
+
+func (r *gormProductRepository) FindProductWithSupplier(productID uint) (*database.Product, error) {
+	var product database.Product
+	if result := r.db.Preload("Supplier").First(&product, productID); result.Error != nil {
+		return nil, result.Error
+	}
+	return &product, nil
+}

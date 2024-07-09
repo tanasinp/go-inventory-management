@@ -1,6 +1,8 @@
 package adapters
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/tanasinp/go-inventory-management/core"
 	"github.com/tanasinp/go-inventory-management/database"
@@ -63,4 +65,16 @@ func (h *httpProductHandler) CreateProductFiber(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.Status(fiber.StatusCreated).JSON(product)
+}
+
+func (h *httpProductHandler) GetProductWithSupplierFiber(c *fiber.Ctx) error {
+	productID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+	product, err := h.service.GetProductWithSupplier(uint(productID))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(product)
 }

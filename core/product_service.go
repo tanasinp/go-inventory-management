@@ -11,6 +11,7 @@ type ProductService interface {
 	GetAllSupplier() ([]database.Supplier, error)
 	GetAllCategory() ([]database.Category, error)
 	CreateProduct(product *database.Product) error
+	GetProductWithSupplier(productID uint) (*database.Product, error)
 }
 
 // business logic
@@ -59,4 +60,12 @@ func (s *productServiceImpl) CreateProduct(product *database.Product) error {
 		return err
 	}
 	return nil
+}
+
+func (s *productServiceImpl) GetProductWithSupplier(productID uint) (*database.Product, error) {
+	product, err := s.repo.FindProductWithSupplier(productID)
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
 }
