@@ -62,8 +62,19 @@ func (r *gormProductRepository) FindProductWithSupplierAndCategory(productID uin
 
 func (r *gormProductRepository) FindAllProductOfCategory(categoryID uint) ([]database.Product, error) {
 	var products []database.Product
-	result := r.db.Joins("JOIN product_categories on product_categories.product_id = products.id").
+	result := r.db.Preload("Supplier").Preload("Categories").Joins("JOIN product_categories on product_categories.product_id = products.id").
 		Where("product_categories.category_id = ?", categoryID).
+		Find(&products)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return products, nil
+}
+
+func (r *gormProductRepository) FindAllProductOfSupplier(supplierID uint) ([]database.Product, error) {
+	var products []database.Product
+	result := r.db.Preload("Supplier").Preload("Categories").Joins("Join suppliers on suppliers.id = products.supplier_id").
+		Where("suppliers.id = ?", supplierID).
 		Find(&products)
 	if result.Error != nil {
 		return nil, result.Error
