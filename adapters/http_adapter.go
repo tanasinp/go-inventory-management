@@ -102,3 +102,19 @@ func (h *httpProductHandler) GetAllProductOfSupplierFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(products)
 }
+
+func (h *httpProductHandler) UpdateSupplierFiber(c *fiber.Ctx) error {
+	supplierID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid supplier ID"})
+	}
+	var supplier database.Supplier
+	if err := c.BodyParser(&supplier); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+	}
+	supplier.ID = uint(supplierID)
+	if err := h.service.UpdateSupplier(&supplier); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(supplier)
+}

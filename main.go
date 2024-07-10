@@ -51,6 +51,7 @@ func main() {
 	app.Get("/product/:id", productHandler.GetProductWithSupplierAndCategoryFiber)
 	app.Get("/category/:id/product", productHandler.GetAllProductOfCategoryFiber)
 	app.Get("/supplier/:id/product", productHandler.GetAllProductOfSupplierFiber)
+	app.Put("/supplier/:id", productHandler.UpdateSupplierFiber)
 
 	app.Listen(":8000")
 }

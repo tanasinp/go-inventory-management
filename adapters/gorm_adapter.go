@@ -81,3 +81,11 @@ func (r *gormProductRepository) FindAllProductOfSupplier(supplierID uint) ([]dat
 	}
 	return products, nil
 }
+
+func (r *gormProductRepository) UpdateSupplier(supplier *database.Supplier) error {
+	result := r.db.Model(&supplier).Updates(supplier)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
