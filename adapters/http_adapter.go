@@ -118,3 +118,11 @@ func (h *httpProductHandler) UpdateSupplierFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(supplier)
 }
+
+func (h *httpProductHandler) GetAllProductFiber(c *fiber.Ctx) error {
+	products, err := h.service.GetAllProduct()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(products)
+}

@@ -89,3 +89,11 @@ func (r *gormProductRepository) UpdateSupplier(supplier *database.Supplier) erro
 	}
 	return nil
 }
+
+func (r *gormProductRepository) FindAllProduct() ([]database.Product, error) {
+	var products []database.Product
+	if result := r.db.Preload("Supplier").Preload("Categories").Find(&products); result.Error != nil {
+		return nil, result.Error
+	}
+	return products, nil
+}
