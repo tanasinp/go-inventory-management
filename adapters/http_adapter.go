@@ -67,12 +67,12 @@ func (h *httpProductHandler) CreateProductFiber(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(product)
 }
 
-func (h *httpProductHandler) GetProductWithSupplierFiber(c *fiber.Ctx) error {
+func (h *httpProductHandler) GetProductWithSupplierAndCategoryFiber(c *fiber.Ctx) error {
 	productID, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
-	product, err := h.service.GetProductWithSupplier(uint(productID))
+	product, err := h.service.GetProductWithSupplierAndCategory(uint(productID))
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
