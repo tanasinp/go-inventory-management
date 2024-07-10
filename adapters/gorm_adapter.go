@@ -59,3 +59,14 @@ func (r *gormProductRepository) FindProductWithSupplierAndCategory(productID uin
 	}
 	return &product, nil
 }
+
+func (r *gormProductRepository) FindAllProductOfCategory(categoryID uint) ([]database.Product, error) {
+	var products []database.Product
+	result := r.db.Joins("JOIN product_categories on product_categories.product_id = products.id").
+		Where("product_categories.category_id = ?", categoryID).
+		Find(&products)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return products, nil
+}

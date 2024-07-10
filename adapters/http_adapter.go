@@ -78,3 +78,15 @@ func (h *httpProductHandler) GetProductWithSupplierAndCategoryFiber(c *fiber.Ctx
 	}
 	return c.Status(fiber.StatusOK).JSON(product)
 }
+
+func (h *httpProductHandler) GetAllProductOfCategoryFiber(c *fiber.Ctx) error {
+	categoryID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+	products, err := h.service.GetAllProductOfCategory(uint(categoryID))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(products)
+}
