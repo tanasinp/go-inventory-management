@@ -48,7 +48,7 @@ func main() {
 	app.Get("/supplier", productHandler.GetAllSupplierFiber)
 	app.Get("/category", productHandler.GetAllCategoryFiber)
 	app.Post("/product", productHandler.CreateProductFiber)
-	app.Get("/product/:id", productHandler.GetProductWithSupplierAndCategoryFiber)
+	app.Get("/product/:id", productHandler.GetProductByIDFiber)
 	app.Get("/product", productHandler.GetAllProductFiber)
 	app.Get("/category/:id/product", productHandler.GetAllProductOfCategoryFiber)
 	app.Get("/supplier/:id/product", productHandler.GetAllProductOfSupplierFiber)

@@ -11,7 +11,7 @@ type ProductService interface {
 	GetAllSupplier() ([]database.Supplier, error)
 	GetAllCategory() ([]database.Category, error)
 	CreateProduct(product *database.Product) error
-	GetProductWithSupplierAndCategory(productID uint) (*database.Product, error)
+	GetProductByID(productID uint) (*database.Product, error)
 	GetAllProduct() ([]database.Product, error)
 	GetAllProductOfCategory(categoryID uint) ([]database.Product, error)
 	GetAllProductOfSupplier(supplierID uint) ([]database.Product, error)
@@ -66,8 +66,8 @@ func (s *productServiceImpl) CreateProduct(product *database.Product) error {
 	return nil
 }
 
-func (s *productServiceImpl) GetProductWithSupplierAndCategory(productID uint) (*database.Product, error) {
-	product, err := s.repo.FindProductWithSupplierAndCategory(productID)
+func (s *productServiceImpl) GetProductByID(productID uint) (*database.Product, error) {
+	product, err := s.repo.FindProductByID(productID)
 	if err != nil {
 		return nil, err
 	}
