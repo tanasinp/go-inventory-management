@@ -32,3 +32,9 @@ type ProductCategory struct {
 	CategoryID int
 	Category   Category
 }
+
+type User struct {
+	gorm.Model
+	Email    string `gorm:"unique"`
+	Password string
+}
