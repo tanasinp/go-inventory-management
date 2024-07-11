@@ -15,5 +15,6 @@ type ProductRepository interface {
 	FindAllProduct() ([]database.Product, error)
 	FindAllProductOfCategory(categoryID uint) ([]database.Product, error)
 	FindAllProductOfSupplier(supplierID uint) ([]database.Product, error)
-	UpdateSupplier(supplier *database.Supplier) error
+	UpdateSupplier(updatedSupplier *database.Supplier) error
+	UpdateProductByID(productID uint, updatedProduct *database.Product) error
 }

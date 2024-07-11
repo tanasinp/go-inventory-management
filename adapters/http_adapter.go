@@ -126,3 +126,18 @@ func (h *httpProductHandler) GetAllProductFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(products)
 }
+
+func (h *httpProductHandler) UpdateProductByIDFiber(c *fiber.Ctx) error {
+	productID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid product ID"})
+	}
+	var updatedProduct database.Product
+	if err := c.BodyParser(&updatedProduct); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+	}
+	if err := h.service.UpdateProductByID(uint(productID), &updatedProduct); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(updatedProduct)
+}

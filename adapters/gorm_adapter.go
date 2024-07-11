@@ -97,3 +97,32 @@ func (r *gormProductRepository) FindAllProduct() ([]database.Product, error) {
 	}
 	return products, nil
 }
+
+func (r *gormProductRepository) UpdateProductByID(productID uint, updatedProduct *database.Product) error {
+	var product database.Product
+	if err := r.db.Preload("Categories").Preload("Supplier").First(&product, productID).Error; err != nil {
+		return err
+	}
+
+	product.Name = updatedProduct.Name
+	product.Description = updatedProduct.Description
+	product.Price = updatedProduct.Price
+	product.SupplierID = updatedProduct.SupplierID
+	// Clear existing categories
+	if err := r.db.Model(&product).Association("Categories").Clear(); err != nil {
+		return err
+	}
+	if len(updatedProduct.Categories) > 0 {
+		var categories []database.Category
+		for _, cat := range updatedProduct.Categories {
+			var category database.Category
+			if err := r.db.First(&category, cat.ID).Error; err != nil {
+				return err
+			}
+			categories = append(categories, category)
+		}
+		product.Categories = categories
+	}
+
+	return r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&product).Error
+}
