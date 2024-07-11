@@ -141,3 +141,14 @@ func (h *httpProductHandler) UpdateProductByIDFiber(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(updatedProduct)
 }
+
+func (h *httpProductHandler) DeleteProductByIDFiber(c *fiber.Ctx) error {
+	productID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid product ID"})
+	}
+	if err := h.service.DeleteProductByID(uint(productID)); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Successfully delete product by id"})
+}

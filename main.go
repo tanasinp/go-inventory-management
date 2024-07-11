@@ -54,6 +54,7 @@ func main() {
 	app.Get("/supplier/:id/product", productHandler.GetAllProductOfSupplierFiber)
 	app.Put("/supplier/:id", productHandler.UpdateSupplierFiber)
 	app.Put("/product/:id", productHandler.UpdateProductByIDFiber)
+	app.Delete("/product/:id", productHandler.DeleteProductByIDFiber)
 
 	app.Listen(":8000")
 }

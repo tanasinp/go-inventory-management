@@ -126,3 +126,17 @@ func (r *gormProductRepository) UpdateProductByID(productID uint, updatedProduct
 
 	return r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&product).Error
 }
+
+func (r *gormProductRepository) DeleteProductByID(productID uint) error {
+	var product database.Product
+	if err := r.db.Preload("Categories").Preload("Supplier").First(&product, productID).Error; err != nil {
+		return err
+	}
+	if err := r.db.Model(&product).Association("Categories").Clear(); err != nil {
+		return err
+	}
+	if err := r.db.Unscoped().Delete(&product).Error; err != nil {
+		return err
+	}
+	return nil
+}
