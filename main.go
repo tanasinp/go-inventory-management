@@ -38,7 +38,7 @@ func main() {
 	productService := core.NewProductService(productRepo)
 	productHandler := adapters.NewHttpProductHandler(productService)
 
-	db.AutoMigrate(&database.Product{}, &database.Category{}, &database.Supplier{}, &database.ProductCategory{})
+	db.AutoMigrate(&database.Product{}, &database.Category{}, &database.Supplier{}, &database.ProductCategory{}, &database.User{})
 	fmt.Println("Automigrate Successful")
 
 	app := fiber.New()
