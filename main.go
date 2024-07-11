@@ -8,6 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/tanasinp/go-inventory-management/adapters"
+	authadapter "github.com/tanasinp/go-inventory-management/auth/authAdapter"
+	authcore "github.com/tanasinp/go-inventory-management/auth/authCore"
 	"github.com/tanasinp/go-inventory-management/core"
 	"github.com/tanasinp/go-inventory-management/database"
 	"gorm.io/driver/postgres"
@@ -38,10 +40,18 @@ func main() {
 	productService := core.NewProductService(productRepo)
 	productHandler := adapters.NewHttpProductHandler(productService)
 
+	userRepo := authadapter.NewGormUserRepository(db)
+	userService := authcore.NewUserService(userRepo)
+	userHandler := authadapter.NewHttpUserHandler(userService)
+
 	db.AutoMigrate(&database.Product{}, &database.Category{}, &database.Supplier{}, &database.ProductCategory{}, &database.User{})
 	fmt.Println("Automigrate Successful")
 
 	app := fiber.New()
+
+	app.Use("/product", authadapter.AuthRequired)
+	app.Use("/category", authadapter.AuthRequired)
+	app.Use("/supplier", authadapter.AuthRequired)
 
 	app.Post("/supplier", productHandler.CreateSupplierFiber)
 	app.Post("/category", productHandler.CreateCategoryFiber)
@@ -55,6 +65,9 @@ func main() {
 	app.Put("/supplier/:id", productHandler.UpdateSupplierFiber)
 	app.Put("/product/:id", productHandler.UpdateProductByIDFiber)
 	app.Delete("/product/:id", productHandler.DeleteProductByIDFiber)
+
+	app.Post("/register", userHandler.CreateUserFiber)
+	app.Post("/login", userHandler.LoginUserFiber)
 
 	app.Listen(":8000")
 }
