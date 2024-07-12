@@ -6,11 +6,11 @@
 I've developed an Inventory Management System REST API. It helps manage products, suppliers, categories, and users. Developed using the Go programming language, it leverages the Fiber framework, GORM for ORM, PostgreSQL for data storage, and Docker for containerization.
 
 ## Features
--**Product Management :** Create, update, delete, and retrieve products. Each product can be associated with a category and a supplier.
--**Category Managemen :** Create, update, delete, and retrieve categories. Each category can have multiple products. Organize products into categories.
--**Supplier Management :** Create, update, delete, and retrieve suppliers. Each supplier can supply multiple products. Manage supplier details like name and contact information.
--**User Authentication :** Register and login users with JWT-based authentication.
--**Authorization :** Protect routes with middleware to ensure only authenticated users can access them.
+- **Product Management :** Create, update, delete, and retrieve products. Each product can be associated with a category and a supplier.
+- **Category Managemen :** Create, update, delete, and retrieve categories. Each category can have multiple products. Organize products into categories.
+- **Supplier Management :** Create, update, delete, and retrieve suppliers. Each supplier can supply multiple products. Manage supplier details like name and contact information.
+- **User Authentication :** Register and login users with JWT-based authentication.
+- **Authorization :** Protect routes with middleware to ensure only authenticated users can access them.
 
 ## Installation
 1. Clone the repository
